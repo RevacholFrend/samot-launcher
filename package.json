@@ -1,6 +1,6 @@
 {
     "name": "samot-launcher",
-    "version": "1.0.4",
+    "version": "1.0.6",
     "description": "SAMOT Launcher — десктопный лаунчер игр и ПО и ПО: новости, баннеры, установка/обновление (Electron + Supabase)",
     "main": "main.js",
     "license": "MIT",

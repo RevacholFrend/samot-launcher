@@ -974,7 +974,9 @@ ipcMain.handle('update:download-and-run', async (event, url, expectedSha256) => 
   const script = [
     `$installer = '${escPs(tmp)}'`,
     `$exe = '${escPs(exePath)}'`,
-    `try { Start-Process -FilePath $installer -ArgumentList '/S' -Wait } catch { exit 1 }`,
+    `# Установка в Program Files требует прав администратора — иначе тихая NSIS молча проигрывает`,
+    `$elevate = $exe -match 'Program Files'`,
+    `try { if ($elevate) { Start-Process -FilePath $installer -ArgumentList '/S' -Verb RunAs -Wait } else { Start-Process -FilePath $installer -ArgumentList '/S' -Wait } } catch { exit 1 }`,
     'Start-Sleep -Milliseconds 800',
     `if (Test-Path $exe) { try { Start-Process -FilePath $exe } catch {} }`,
   ].join('; ');
