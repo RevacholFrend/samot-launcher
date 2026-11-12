@@ -36,7 +36,7 @@
 
 | Что | Файл |
 |---|---|
-| **SAMOT Launcher** (игрок) | [SAMOT Launcher Setup 1.0.2.exe](https://github.com/RevacholFrend/samot-launcher/releases/download/v1.0.2/SAMOT.Launcher.Setup.1.0.2.exe) |
+| **SAMOT Launcher** (игрок) | [SAMOT Launcher Setup.exe](https://github.com/RevacholFrend/samot-launcher/releases/latest/download/SAMOT-Launcher-Setup.exe) |
 
 > ℹ Самоподписанный сертификат: при первом запуске Windows SmartScreen может предупредить.
 > Исходный код открыт — проверяйте спокойно.

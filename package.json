@@ -43,7 +43,7 @@
                                "perMachine":  false,
                                "allowToChangeInstallationDirectory":  true,
                                "shortcutName":  "SAMOT Launcher",
-                               "installerIcon":  "assets/iconClient.ico",
+                               "installerIcon":  "assets/iconClient.ico", "artifactName":  "SAMOT-Launcher-Setup.exe",
                                "uninstallerIcon":  "assets/iconClient.ico"
                            }
               },
