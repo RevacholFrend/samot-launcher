@@ -1909,7 +1909,11 @@ async function enterApp() {
 
   syncSupportVisibility();
   await loadAll();
-  try { checkForLauncherUpdate(); } catch {}
+  try { await checkForLauncherUpdate(); } catch {}
+  // Полностью автоматический режим: если доступна новая версия — скачать и установить молча
+  if (state.latestLauncherUpdate) {
+    try { document.getElementById('btn-update-now')?.click(); } catch { /* кнопка останется как запасной вариант */ }
+  }
   // фоновая проверка целостности
   try { checkCacheIntegrity(); } catch {}
 }
