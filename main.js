@@ -559,7 +559,7 @@ ipcMain.handle('game:pause-state', (_event, arg) => {
 });
 
 // Манифест-загрузка: скачать недостающие/сбитые файлы
-async function downloadOneWithVerify(url, destPath, f, event, doneBytesAcc, totalBytes, downloadedCount, totalFiles, projectId) {
+async function downloadOneWithVerify(url, destPath, f, event, doneBytesAcc, totalBytes, downloadedCount, totalFiles, projectId, progressScale) {
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
@@ -597,7 +597,7 @@ async function downloadOneWithVerify(url, destPath, f, event, doneBytesAcc, tota
       if (alreadyComplete) {
         // Пак/файл уже докачан в прошлый раз (например, лаунчер закрыли до очистки) — сразу к проверке SHA
         if (event) try {
-          event.sender.send('game:progress', { path: f.path, ok: true, totalBytes, doneBytes: doneBytesAcc.value + expectedSize, currentFile: downloadedCount + 1, totalFiles });
+          event.sender.send('game:progress', { path: f.path, ok: true, totalBytes, doneBytes: doneBytesAcc.value + Math.round(expectedSize * (progressScale || 1)), currentFile: downloadedCount + 1, totalFiles });
         } catch {}
       } else {
         let received = 0;
@@ -644,7 +644,7 @@ async function downloadOneWithVerify(url, destPath, f, event, doneBytesAcc, tota
             received += chunk.length;
             out.write(chunk);
             if (event) try {
-              event.sender.send('game:progress', { path: f.path, ok: true, totalBytes, doneBytes: doneBytesAcc.value + received, currentFile: downloadedCount + 1, totalFiles });
+              event.sender.send('game:progress', { path: f.path, ok: true, totalBytes, doneBytes: doneBytesAcc.value + Math.round(received * (progressScale || 1)), currentFile: downloadedCount + 1, totalFiles });
             } catch {}
           });
           r.on('end', () => out.end(() => resolve()));
@@ -749,6 +749,12 @@ async function downloadManifestPack(event, manifest, baseUrl, projectId, slug) {
     // ищем готовый/переименованный пак и пропускаем сеть, если SHA совпадает.
     let packFile = tmpPath;
     let preReady = null;
+    // При загрузке пака показываем прогресс в «очках» восстанавливаемых файлов,
+    // а не в байтах самого пака — иначе прогресс залазит за 100% игры (929/803).
+    const packStaleBytes = stale
+      .filter((f) => f.pack === pack.id)
+      .reduce((a, x) => a + Number(x.size || 0), 0);
+    const packScale = Number(pack.size) > 0 ? packStaleBytes / Number(pack.size) : 1;
     for (const cand of [tmpPath, legacyTmpPath]) {
       try {
         if (fs.existsSync(cand) && fs.statSync(cand).size === Number(pack.size || 0)) {
@@ -762,12 +768,12 @@ async function downloadManifestPack(event, manifest, baseUrl, projectId, slug) {
       if (preReady !== tmpPath) {
         try { fs.renameSync(preReady, tmpPath); } catch { packFile = preReady; }
       }
-      try { event.sender.send('game:progress', { path: pack.id, ok: true, pack: pack.id, packIndex, packTotal, totalBytes, doneBytes: doneAcc.value + Number(pack.size || 0), currentFile: downloaded + 1, totalFiles: total }); } catch {}
+      try { event.sender.send('game:progress', { path: pack.id, ok: true, pack: pack.id, packIndex, packTotal, totalBytes, doneBytes: doneAcc.value + Math.round(Number(pack.size || 0) * packScale), currentFile: downloaded + 1, totalFiles: total }); } catch {}
     }
 
     const res = preReady
       ? { ok: true }
-      : await downloadOneWithVerify(packUrl, tmpPath, { path: pack.id, sha256: pack.sha256, size: pack.size }, event, doneAcc, totalBytes, downloaded, total, projectId);
+      : await downloadOneWithVerify(packUrl, tmpPath, { path: pack.id, sha256: pack.sha256, size: pack.size }, event, doneAcc, totalBytes, downloaded, total, projectId, packScale);
     if (!res.ok) { failures.push({ path: pack.id, error: res.error }); continue; }
 
     // 3) распаковать только битые файлы из пака

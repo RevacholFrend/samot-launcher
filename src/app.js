@@ -97,7 +97,7 @@ const DEMO_DATA = {
   projects: [{ id: 1, name: 'SuperTuxKart', slug: 'supertuxkart', tagline: 'Аркадные гонки: бешеный дрифт и грибы', logo: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=128&q=80', color: '#ff6b1a' }],
   news: [
     { id: 3, project_id: 1, title: 'Турнир «Гран-при грибов»', tag: 'Турнир', excerpt: 'Приз — 50 000 внутриигровых очков. Регистрация открыта.', body: 'Еженедельный онлайн-чемпионат стартует 22 ноября. Формат: 3 заезда по 3 круга, лучшие 8 гонщиков проходят в финал. Награды получают все участники первой десятки.', image_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600&q=80', published_at: new Date(Date.now() - 86400000).toISOString(), active: true },
-    { id: 2, project_id: 1, title: 'Патч 1.4 «Пустынный каньон»', tag: 'Патчнот', excerpt: 'Новая карта, баланс грибов, буст на старте.', body: 'Изменения: добавлена карта «Пустынный каньон» с узкими ущельями и боковой трассой через скалы; буст теперь тратится ровно 2 секунды; красный гриб слегка дольше кружит цель; исправлен краш на 4-м круге Ледяного перевала.', image_url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1600&q=80', published_at: new Date(Date.now() - 3 * 86400000).toISOString(), active: true },
+    { id: 2, project_id: 1, title: 'Патч 1.4 «Пустынный каньон»', tag: 'Патчноут', excerpt: 'Новая карта, баланс грибов, буст на старте.', body: 'Изменения: добавлена карта «Пустынный каньон» с узкими ущельями и боковой трассой через скалы; буст теперь тратится ровно 2 секунды; красный гриб слегка дольше кружит цель; исправлен краш на 4-м круге Ледяного перевала.', image_url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1600&q=80', published_at: new Date(Date.now() - 3 * 86400000).toISOString(), active: true },
     { id: 1, project_id: 1, title: 'Сезон 3: карты и питомцы', tag: 'Анонс', excerpt: 'Зимний сезон, два новых персонажа и 3 новых трасссы.', body: 'Зимний сезон стартует 1 декабря: ледяные трассы, санки-питомцы и застывшие бусты. Подписывайтесь, чтобы не пропустить закрытый бета-заезд сервера SuperTuxKart Online.', image_url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80', published_at: new Date(Date.now() - 5 * 86400000).toISOString(), active: true },
   ],
 };
@@ -1255,6 +1255,8 @@ async function startDownload() {
       // Скачиваем отсутствующие/битые файлы; живой прогресс через IPC
       const pid = state.project?.id;
       const totalToFetch = (verify.report || []).filter((r) => !r.ok).length;
+      const n10 = totalToFetch % 10, n100 = totalToFetch % 100;
+      const fileWord = (n10 === 1 && n100 !== 11) ? 'файл' : (n10 >= 2 && n10 <= 4 && (n100 < 12 || n100 > 14)) ? 'файла' : 'файлов';
       const dlStart = Date.now();
       const updateEl = (received, total, percent) => {
         const p = Math.max(0, Math.min(100, Number(percent ?? 0)));
@@ -1262,7 +1264,7 @@ async function startDownload() {
         const speedBps = received > 0 ? Math.round(received / elapsed) : 0;
         $('#dp-fill').style.width = p + '%';
         $('#dp-percent').textContent = p + '%';
-        $('#dp-label').textContent = 'Обновление игры' + (totalToFetch ? ' (' + totalToFetch + ' файлов)' : '');
+        $('#dp-label').textContent = 'Обновление игры' + (totalToFetch ? ' (' + totalToFetch + ' ' + fileWord + ')' : '');
         $('#dp-received').textContent = (typeof fmtBytes === 'function' ? fmtBytes(received) : String(received)) + ' / ' + (total ? (typeof fmtBytes === 'function' ? fmtBytes(total) : String(total)) : '?');
         const speedEl = $('#dp-speed');
         if (speedEl) speedEl.textContent = (typeof fmtBytes === 'function' ? fmtBytes(speedBps) : String(speedBps)) + '/с';
