@@ -7,7 +7,7 @@
 <p align="center"><b>Твой мир. Твоя игра. Твой лаунчер.</b></p>
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-ff6b1a">
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.1-ff6b1a">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Windows-2ea3f2">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-39d98a">
   <img alt="Stack" src="https://img.shields.io/badge/stack-Electron%20%2B%20Supabase-7c5cff">
@@ -36,7 +36,7 @@
 
 | Что | Файл |
 |---|---|
-| **SAMOT Launcher** (игрок) | [SAMOT Launcher Setup 1.0.0.exe](https://github.com/RevacholFrend/samot-launcher/releases/download/v1.0.0/SAMOT.Launcher.Setup.1.0.0.exe) |
+| **SAMOT Launcher** (игрок) | [SAMOT Launcher Setup 1.0.1.exe](https://github.com/RevacholFrend/samot-launcher/releases/download/v1.0.1/SAMOT.Launcher.Setup.1.0.1.exe) |
 
 > ℹ Самоподписанный сертификат: при первом запуске Windows SmartScreen может предупредить.
 > Исходный код открыт — проверяйте спокойно.
