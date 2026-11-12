@@ -1960,7 +1960,6 @@ async function initSettingsPanel() {
   try {
     const ls = await window.launcher.getLauncherSettings();
     $('#set-autostart').checked = !!ls.autostart;
-    if ($('#set-fullscreen')) $('#set-fullscreen').checked = !!ls.fullscreen;
     if ($('#set-tray')) $('#set-tray').checked = !!ls.trayOnClose;
     $('#set-install-path').textContent = ls.installPath || '—';
     applyTheme('orange', false);   // оранжевая — единственная тема
@@ -1968,9 +1967,6 @@ async function initSettingsPanel() {
 
   $('#set-autostart').addEventListener('change', async (e) => {
     try { await window.launcher.setLauncherSettings({ autostart: e.target.checked }); } catch {}
-  });
-  if ($('#set-fullscreen')) $('#set-fullscreen').addEventListener('change', async (e) => {
-    try { await window.launcher.setFullscreen(e.target.checked); } catch {}
   });
   if ($('#set-tray')) $('#set-tray').addEventListener('change', async (e) => {
     try { await window.launcher.setTrayOnClose(e.target.checked); } catch {}

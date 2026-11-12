@@ -44,7 +44,7 @@ test('каросельная логика и чтение баннеров пр�
   assert.ok(js.includes("eq('carousel', true)"), 'карусель: нет запроса carousel-баннеров');
   assert.ok(js.includes("kind === 'news'"), 'openHomeSlide должен фильтровать kind=news');
   const html = read('src/index.html');
-  assert.ok(html.includes('home-hero-label">Карусель<'), 'на главной нет метки «Карусель» в hero');
+  assert.ok(!html.includes('home-hero-label'), 'метки «Карусель» больше нет над hero');
 });
 
 test('миграции упорядочены, есть v25 с carousel-колонками', () => {

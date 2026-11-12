@@ -49,7 +49,6 @@ function readInstallState(projectId) {
 }
 
 function createWindow(demoUser = false) {
-  const fullscreen = !!readLauncherSettings().fullscreen;
   mainWindow = new BrowserWindow({
     width: 1220,
     height: 760,
@@ -75,8 +74,6 @@ function createWindow(demoUser = false) {
       return;
     }
   });
-
-  if (fullscreen) mainWindow.maximize();
 
   if (demoUser) {
     mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'), { query: { demo: 'user' } });
@@ -162,7 +159,6 @@ ipcMain.handle('auth:session-clear', (_event, key) => {
 const DEFAULT_LAUNCHER_SETTINGS = {
   installPath: path.join(app.getPath('userData'), 'downloads'),
   autostart: false,
-  fullscreen: true,
   trayOnClose: false,
   language: 'ru',
   theme: 'violet',
@@ -229,16 +225,6 @@ ipcMain.handle('settings:set', (_event, patch) => {
   return next;
 });
 
-// ---------- Полноэкранный режим ----------
-ipcMain.handle('window:set-fullscreen', (_event, enabled) => {
-  if (mainWindow) {
-    if (enabled) mainWindow.maximize();
-    else mainWindow.unmaximize();
-  }
-  const next = { ...readLauncherSettings(), fullscreen: !!enabled };
-  writeLauncherSettings(next);
-  return next;
-});
 
 ipcMain.handle('settings:choose-install-path', async () => {
   const res = await dialog.showOpenDialog(mainWindow, {

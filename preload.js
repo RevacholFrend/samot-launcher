@@ -21,7 +21,6 @@ contextBridge.exposeInMainWorld('launcher', {
   getLauncherSettings: () => ipcRenderer.invoke('settings:get'),
   setLauncherSettings: (patch) => ipcRenderer.invoke('settings:set', patch),
   chooseInstallPath: () => ipcRenderer.invoke('settings:choose-install-path'),
-  setFullscreen: (enabled) => ipcRenderer.invoke('window:set-fullscreen', enabled),
   setTrayOnClose: (enabled) => ipcRenderer.invoke('settings:set', { trayOnClose: !!enabled }),
   quitApp: () => ipcRenderer.send('app:quit'),
   settingsGet: () => ipcRenderer.invoke('settings:get'),
