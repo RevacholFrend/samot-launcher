@@ -1,4 +1,4 @@
-﻿// =====================================================
+// =====================================================
 //  SAMOT LAUNCHER — логика клиента
 //  Мультипроектность • Проверки при старте • Офлайн-режим • Помнить устройство
 // =====================================================
@@ -76,16 +76,29 @@ const sb = createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY, {
 const DEMO_USER = new URLSearchParams(window.location.search).get('demo') === 'user';
 const DEMO_DATA = {
   settings: {
-    game_name: 'SAMOT game', game_version: '0.9.4',
-    download_url: 'https://example.com/GameSetup-0.9.4.exe',
-    update_notes: '— Новый рейд «Башня»\n— Ускорена загрузка локаций на 30%\n— Исправлен краш при входе в рейд',
-   maintenance: 'false', min_launcher_version: '1.0.0',
+    game_name: 'SuperTuxKart', game_version: '1.4.0',
+    download_url: 'https://example.com/SuperTuxKart-1.4.0-Setup.exe',
+    download_available: 'true',
+    update_notes: '— Новый контент: карта «Пустынный каньон»\n— Балансировка бустов и грибов\n— Онлайн-чемпионаты каждые выходные',
+    maintenance: 'false', min_launcher_version: '1.0.0',
+    media_card: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80',
+    media_screenshots: JSON.stringify([
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=80',
+      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=80',
+      'https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?auto=format&fit=crop&w=1600&q=80',
+      'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?auto=format&fit=crop&w=1600&q=80',
+    ]),
+    media_release_date: 'Май 2025',
+    media_languages: 'RU · EN · DE · FR · ES · PT · ещё 15',
+    media_developer: 'Команда SuperTuxKart',
+    media_developer_contact: 'hello@supertuxkart.net · https://supertuxkart.net · github.com/supertuxkart',
+    media_long_description: '<p><b>SuperTuxKart</b> — безумный аркадный kart-гонщик, где грибы решают исход заезда, а синяя «звёздка» превращает тебя в неуязвимого призрака.</p><p>Гонись по трассам от ледяных пиков до пустынных каньонов, собирай турбо-грибы, обгоняй друзей в локальном или сетевом мультиплеере. Каждый уикенд — онлайн-чемпионат «Гран-при грибов» с таблицей результатов.</p><p>Собрано добровольцами со всего мира и распространяется бесплатно под GPLv3.</p>',
   },
-  projects: [{ id: 1, name: 'SAMOT game', slug: 'samot', tagline: 'Твой мир. Твоя игра.', logo: '🎮', color: '#7c5cff' }],
+  projects: [{ id: 1, name: 'SuperTuxKart', slug: 'supertuxkart', tagline: 'Аркадные гонки: бешеный дрифт и грибы', logo: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=128&q=80', color: '#ff6b1a' }],
   news: [
-    { id: 3, project_id: 1, title: 'Турнир к запуску', tag: 'Турнир', excerpt: 'Приз 50 000 ₽. Регистрация открыта.', body: 'Еженедельный турнир начнётся 22 ноября. Формат: 5×5, single elimination.', image_url: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1600&q=80', published_at: new Date(Date.now() - 86400000).toISOString(), active: true },
-    { id: 2, project_id: 1, title: 'Патч 0.9.4 «Буря»', tag: 'Патчнот', excerpt: 'Исправили краш в рейде, ускорили загрузку.', body: 'Изменения: исправлен краш клиента; ускорена загрузка локаций; быстрые лидерборды.', image_url: 'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=1600&q=80', published_at: new Date(Date.now() - 3 * 86400000).toISOString(), active: true },
-    { id: 1, project_id: 1, title: 'Закрытая бета: детали', tag: 'Анонс', excerpt: 'Бета начнётся 15 ноября.', body: 'Закрытая бета начнётся 15 ноября.', image_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600&q=80', published_at: new Date(Date.now() - 5 * 86400000).toISOString(), active: true },
+    { id: 3, project_id: 1, title: 'Турнир «Гран-при грибов»', tag: 'Турнир', excerpt: 'Приз — 50 000 внутриигровых очков. Регистрация открыта.', body: 'Еженедельный онлайн-чемпионат стартует 22 ноября. Формат: 3 заезда по 3 круга, лучшие 8 гонщиков проходят в финал. Награды получают все участники первой десятки.', image_url: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=1600&q=80', published_at: new Date(Date.now() - 86400000).toISOString(), active: true },
+    { id: 2, project_id: 1, title: 'Патч 1.4 «Пустынный каньон»', tag: 'Патчнот', excerpt: 'Новая карта, баланс грибов, буст на старте.', body: 'Изменения: добавлена карта «Пустынный каньон» с узкими ущельями и боковой трассой через скалы; буст теперь тратится ровно 2 секунды; красный гриб слегка дольше кружит цель; исправлен краш на 4-м круге Ледяного перевала.', image_url: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=1600&q=80', published_at: new Date(Date.now() - 3 * 86400000).toISOString(), active: true },
+    { id: 1, project_id: 1, title: 'Сезон 3: карты и питомцы', tag: 'Анонс', excerpt: 'Зимний сезон, два новых персонажа и 3 новых трасссы.', body: 'Зимний сезон стартует 1 декабря: ледяные трассы, санки-питомцы и застывшие бусты. Подписывайтесь, чтобы не пропустить закрытый бета-заезд сервера SuperTuxKart Online.', image_url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1600&q=80', published_at: new Date(Date.now() - 5 * 86400000).toISOString(), active: true },
   ],
 };
 
@@ -463,6 +476,17 @@ $('#btn-logout').addEventListener('click', async () => {
 
 async function reloadCurrentProject() {
   if (!state.project) return;
+  if (DEMO_USER) {
+    // демо не ходит в сервер: настройки/новости берём из DEMO_DATA
+    renderGamePanel();
+    renderNewsList();
+    refreshCurrentInstall();
+    renderActionButton();
+    paintSidebarProgress();
+    renderProjectPill();
+    setStatus(t('ready'));
+    return;
+  }
   setStatus(t('news_updating'), true);
   await Promise.all([loadSettings(state.project.id), loadNews(state.project.id)]);
   renderGamePanel();
@@ -489,7 +513,8 @@ async function loadHomeData() {
   state.homeNews = [];
   const ids = state.projects.map((p) => p.id);
   if (DEMO_USER) {
-    state.homeSlides = state.projects.map((p) => ({ id: p.id, name: p.name, tagline: p.tagline || '', cfg: {} }));
+    const banner = 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1920&q=80';
+    state.homeSlides = state.projects.map((p) => ({ id: p.id, name: p.name, tagline: p.tagline || '', cfg: {}, banner, ctaKind: 'project' }));
     state.homeNews = (DEMO_DATA.news || []).slice(0, 3);
     return;
   }
@@ -817,6 +842,7 @@ $('#desc-toggle').addEventListener('click', () => {
 // =====================================================
 function scheduleDataRefresh() {
   clearInterval(state.refreshTimer);
+  if (DEMO_USER) return; // демо не опрашивает сервер
   state.refreshTimer = setInterval(async () => {
     try {
       await Promise.all([loadSettings(state.project?.id), loadNews(state.project?.id)]);
@@ -869,19 +895,25 @@ async function loadAll() {
 
   splashStep(currentLang === 'en' ? 'Loading news…' : 'Загружаем новости…', 75);
   if (state.project) {
-    // кэш есть в localStorage — используем при сомнениях
-    const cached = readCache(state.project.id);
-    const results = await Promise.all([
-      loadSettings(state.project.id),
-      loadNews(state.project.id),
-    ]);
-    if (!results[0] && cached?.settings) {
-      state.settings = { ...cached.settings };
-      state.offline = true;
-    }
-    if (!results[1] && cached?.news) {
-      state.news = [...cached.news];
-      state.offline = true;
+    if (DEMO_USER) {
+      // демо: сервер не опрашиваем — берём из DEMO_DATA
+      state.settings = { ...DEMO_DATA.settings };
+      state.news = [...DEMO_DATA.news];
+    } else {
+      // кэш есть в localStorage — используем при сомнениях
+      const cached = readCache(state.project.id);
+      const results = await Promise.all([
+        loadSettings(state.project.id),
+        loadNews(state.project.id),
+      ]);
+      if (!results[0] && cached?.settings) {
+        state.settings = { ...cached.settings };
+        state.offline = true;
+      }
+      if (!results[1] && cached?.news) {
+        state.news = [...cached.news];
+        state.offline = true;
+      }
     }
   }
 
@@ -1197,6 +1229,7 @@ async function startDownload() {
       btn.disabled = true;
       btn.classList.add('hidden');
       prog.classList.remove('hidden');
+      prog.style.display = '';
       setPauseButtonVisible(true, false);
       $('#dp-label').textContent = 'Обновляем игру…';
       $('#dp-fill').style.width = '5%';
@@ -1212,6 +1245,7 @@ async function startDownload() {
         btn.disabled = false;
         btn.classList.remove('hidden');
         prog.classList.add('hidden');
+        prog.style.display = 'none';
         setPauseButtonVisible(false, false);
         state.downloading = false;
       state.downloadingPid = null;
@@ -1263,6 +1297,7 @@ async function startDownload() {
       state.downloading = false;
       state.downloadingPid = null;
       prog.classList.add('hidden');
+      prog.style.display = 'none';
       setPauseButtonVisible(false, false);
       btn.classList.remove('hidden');
       btn.disabled = false;
@@ -1274,7 +1309,7 @@ async function startDownload() {
       console.warn('manifest update failed; falling back to legacy download', err);
       state.downloading = false;
       state.downloadingPid = null;
-      $('#download-progress')?.classList.add('hidden');
+      { const pEl = $('#download-progress'); if (pEl) { pEl.classList.add('hidden'); pEl.style.display = 'none'; } }
       setPauseButtonVisible(false, false);
       $('#btn-action')?.classList.remove('hidden');
       $('#btn-action').disabled = false;
@@ -1291,6 +1326,7 @@ async function startDownload() {
     btn.disabled = true;
     btn.classList.add('hidden');
     prog.classList.remove('hidden');
+    prog.style.display = '';
     setPauseButtonVisible(true, false);
     const total = 480 * 1024 * 1024;
     let received = 0;
@@ -1314,6 +1350,7 @@ async function startDownload() {
     state.downloading = false;
       state.downloadingPid = null;
     prog.classList.add('hidden');
+    prog.style.display = 'none';
     setPauseButtonVisible(false, false);
     btn.classList.remove('hidden');
     btn.disabled = false;
@@ -1333,6 +1370,7 @@ async function startDownload() {
   btn.disabled = true;
   btn.classList.add('hidden');
   prog.classList.remove('hidden');
+  prog.style.display = '';
   setPauseButtonVisible(true, false);
 
   const downloadPid = state.project?.id;
@@ -1365,6 +1403,7 @@ async function startDownload() {
     state.downloading = false;
       state.downloadingPid = null;
     prog.classList.add('hidden');
+    prog.style.display = 'none';
     setPauseButtonVisible(false, false);
     btn.classList.remove('hidden');
     btn.disabled = false;
