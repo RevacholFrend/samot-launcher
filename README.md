@@ -43,16 +43,23 @@
 
 ## Скриншоты
 
+Демонстрационный проект «SuperTuxKart» (свободный kart-гонщик, GPLv3).
+
 <p align="center">
-  <img src="docs/screenshots/launcher-main.png" alt="Главная и новости" width="49%">
-  <img src="docs/screenshots/launcher-auth.png" alt="Вход" width="49%">
+  <img src="docs/screenshots/launcher-main.png" alt="Главная: карусель и новости SuperTuxKart" width="49%">
+  <img src="docs/screenshots/launcher-game.png" alt="Страница игры: галерея, новости, скачивание" width="49%">
 </p>
 <p align="center">
-  <img src="docs/screenshots/admin-panel.png" alt="SAMOT Admin: новости и баннеры" width="49%">
-  <img src="docs/screenshots/packager.png" alt="SAMOT Packager" width="49%">
+  <img src="docs/screenshots/launcher-download.png" alt="Загрузка игры: прогресс, скорость, пауза" width="49%">
+  <img src="docs/screenshots/launcher-dev-modal.png" alt="Разработчик: контакты игрока" width="49%">
+</p>
+<p align="center">
+  <img src="docs/screenshots/launcher-auth.png" alt="Вход в лаунчер" width="49%">
 </p>
 
 Требования: Windows 10+, Node.js LTS. Бэкенд — Supabase (см. `supabase/schema.sql`).
+
+> Демо-иллюстрации: SuperTuxKart (свободный kart-гонщик, GPLv3) — учебный пример заполнения проекта. Изображения — Unsplash.
 
 ## Лицензия
 
