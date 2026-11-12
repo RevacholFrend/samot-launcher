@@ -7,4 +7,5 @@ install-state.json
 .DS_Store
 backups/
 .wrangler/
-.tmp-asar2/supabase/.temp/
+.tmp-asar2/
+supabase/.temp/
