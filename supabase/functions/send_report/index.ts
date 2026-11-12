@@ -7,7 +7,7 @@
 import { serve } from 'https://deno.land/std@0.224.0/http/server.ts';
 
 const REPORT_TO = 'revacholfrend@gmail.com';
-const FROM = 'Xuita Launcher <onboarding@resend.dev>';
+const FROM = 'SAMOT Launcher <onboarding@resend.dev>';
 const SUBJECTS: Record<string, string> = {
   bug: 'bag',
   contact: 'Связь',

@@ -3,7 +3,7 @@
 // userEmail — почта отправителя (подставляется в письмо и как reply_to).
 
 const REPORT_TO = 'revacholfrend@gmail.com';
-const FROM = 'Xuita Launcher <onboarding@resend.dev>';
+const FROM = 'SAMOT Launcher <onboarding@resend.dev>';
 const SUBJECTS: Record<string, string> = {
   bug: 'bag',
   contact: 'Связь',

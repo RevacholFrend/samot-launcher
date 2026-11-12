@@ -1,5 +1,5 @@
-﻿-- ============================================================
---  Xuita Launcher — миграция v1 → v2 (мультипроектность)
+-- ============================================================
+--  SAMOT Launcher — миграция v1 → v2 (мультипроектность)
 --  Выполните целиком в SQL Editor. Идемпотентно (можно перезапустить).
 --  Существующие новости и настройки ТОЛЬКО перекрываются, ничего не удаляется.
 -- ============================================================
@@ -28,8 +28,8 @@ create table if not exists public.project_members (
 -- 2) проект «по умолчанию» из текущих настроек ------------------
 insert into public.projects (name, slug, tagline, logo, color, created_by)
 select
-  coalesce((select value from public.settings where key = 'game_name'), 'Xuita game'),
-  'xuita-game',
+  coalesce((select value from public.settings where key = 'game_name'), 'SAMOT Game'),
+  'samot-game',
   'Твой мир. Твоя игра.',
   '🎮',
   '#7c5cff',
@@ -39,21 +39,21 @@ on conflict (slug) do nothing;
 -- владелец проекта по умолчанию = тот же, кто создал
 insert into public.project_members (project_id, user_id, role)
 select p.id, p.created_by, 'owner' from public.projects p
-where p.slug = 'xuita-game' and p.created_by is not null
+where p.slug = 'samot-game' and p.created_by is not null
 on conflict do nothing;
 
 -- v1-таблица admins → добавляем владельца и в участники (на всякий случай)
 insert into public.project_members (project_id, user_id, role)
 select p.id, a.user_id, 'owner' from public.projects p join public.admins a on true
-where p.slug = 'xuita-game'
+where p.slug = 'samot-game'
 on conflict do nothing;
 
 -- backfill emails для участников по умолчанию\nupdate public.project_members pm set email = u.email from auth.users u where pm.user_id = u.id and pm.email = '';\n\n-- 3) колонка project_id (сначала без NOT NULL, заполним потом) --
 alter table public.news     add column if not exists project_id bigint references public.projects(id) on delete cascade;
 alter table public.settings add column if not exists project_id bigint references public.projects(id) on delete cascade;
 
-update public.news     n set project_id = (select id from public.projects where slug = 'xuita-game') where n.project_id is null;
-update public.settings n set project_id = (select id from public.projects where slug = 'xuita-game') where n.project_id is null;
+update public.news     n set project_id = (select id from public.projects where slug = 'samot-game') where n.project_id is null;
+update public.settings n set project_id = (select id from public.projects where slug = 'samot-game') where n.project_id is null;
 
 alter table public.news     alter column project_id set not null;
 alter table public.settings alter column project_id set not null;

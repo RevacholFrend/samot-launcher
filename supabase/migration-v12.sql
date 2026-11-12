@@ -1,5 +1,5 @@
 -- ============================================================
---  Xuita Launcher — v12: clear_user_devices
+--  SAMOT Launcher — v12: clear_user_devices
 -- ============================================================
 
 create or replace function public.clear_user_devices(target_user uuid)

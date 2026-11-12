@@ -1,5 +1,5 @@
 -- ============================================================
---  Xuita Launcher — v9: передача IP через upsert_my_device
+--  SAMOT Launcher — v9: передача IP через upsert_my_device
 -- ============================================================
 
 drop function if exists public.upsert_my_device(uuid, text, text, text, text);

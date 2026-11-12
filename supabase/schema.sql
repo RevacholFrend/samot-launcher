@@ -1,5 +1,5 @@
-﻿-- ============================================================
---  Xuita Game Launcher — схема БД v2 (мультипроектность)
+-- ============================================================
+--  SAMOT Game Launcher — схема БД v2 (мультипроектность)
 --  Вставьте ТОЛЬКО в SQL Editor свежего проекта.
 --  Для существующей (v1) используйте migration-v2.sql.
 -- ============================================================
@@ -186,7 +186,7 @@ grant usage on all sequences in schema public to authenticated;
 
 -- 7) ДЕМО-ДАННЫЕ (удалите из админки) ------------------------------
 insert into public.projects (name, slug, tagline, logo, color, created_by)
-  select 'Xuita game', 'xuita', 'Твой мир. Твоя игра.', '🎮', '#7c5cff', id from auth.users limit 1
+  select 'SAMOT Game', 'samot-game', 'Твой мир. Твоя игра.', '🎮', '#7c5cff', id from auth.users limit 1
   on conflict (slug) do nothing;
 
 insert into public.news (project_id, title, tag, excerpt, body, image_url)
@@ -202,5 +202,5 @@ insert into public.news (project_id, title, tag, excerpt, body, image_url)
      'Еженедельный турнир начнётся 22 ноября. Формат: 5×5, single elimination. Приз — 50 000 ₽ и эксклюзивный скин.',
      'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=1600&q=80')
   ) as t(title, tag, excerpt, body, image_url)
-  where p.slug = 'xuita'
+  where p.slug = 'samot-game'
     and not exists (select 1 from public.news n where n.project_id = p.id);

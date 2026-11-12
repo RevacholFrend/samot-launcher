@@ -1,5 +1,5 @@
 -- ============================================================
---  Xuita Launcher — v10: list_all_bans (история с фильтрами)
+--  SAMOT Launcher — v10: list_all_bans (история с фильтрами)
 -- ============================================================
 
 create or replace function public.list_all_bans(
