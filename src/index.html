@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://noskgnbkghuyiremujcl.supabase.co wss://noskgnbkghuyiremujcl.supabase.co; form-action 'self'" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAMOT Launcher</title>
+  <link rel="icon" href="../assets/logoClient.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ══════════ СПЛЭШ (проверки прогрева) ══════════ -->
+  <div class="splash" id="splash">
+    <div class="splash-center">
+      <div class="splash-bar"><div class="splash-fill" id="splash-fill"></div></div>
+      <p class="splash-status" id="splash-status">Запускаем…</p>
+    </div>
+  </div>
+
+  <!-- ══════════ ТИТУЛЬНАЯ ПОЛОСА ══════════ -->
+  <div class="titlebar" id="titlebar">
+    <div class="tb-left">
+      <img class="tb-logo" src="../assets/logoClient.svg" alt="logo" />
+      <span class="tb-title" id="tb-app-name">SAMOT Launcher</span>
+    </div>
+    <div class="tb-right">
+      <span class="tb-version" id="tb-version">v1.0.0</span>
+      <button class="tb-btn" id="btn-settings" title="Настройки">⚙</button>
+      <button class="tb-btn" id="btn-min" title="Свернуть">─</button>
+      <button class="tb-btn" id="btn-max" title="Развернуть">▢</button>
+      <button class="tb-btn tb-close" id="btn-close" title="Закрыть">✕</button>
+    </div>
+  </div>
+
+  <!-- ══════════ ЭКРАН ВХОДА ══════════ -->
+  <section id="auth-screen" class="screen hidden">
+        <div class="auth-hero">
+      <div class="hero-slogan-block">
+        <div class="hero-tagline" data-i18n="tagline">SAMOT GAME LAUNCHER</div>
+        <h1 class="hero-slogan">В игре — самая интересная тайна мира</h1>
+      </div>
+    </div>
+
+    <div class="auth-panel">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" data-tab="login" data-i18n="tab_login">Вход</button>
+          <button class="auth-tab" data-tab="register" data-i18n="tab_register">Регистрация</button>
+        </div>
+
+        <form id="login-form" class="auth-form" autocomplete="on">
+          <label class="field">
+            <span class="field-label">Email</span>
+            <input type="email" id="login-email" required placeholder="you@example.com" autocomplete="email" />
+          </label>
+          <label class="field">
+            <span class="field-label">Пароль</span>
+            <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password" />
+          </label>
+          <p class="auth-error" id="login-error"></p>
+          <button type="submit" class="btn btn-primary btn-block" id="login-submit" data-i18n="btn_login">Войти</button>
+        </form>
+
+        <form id="register-form" class="auth-form hidden" autocomplete="on">
+          <label class="field">
+            <span class="field-label">Никнейм</span>
+            <input type="text" id="reg-nickname" required placeholder="Как к тебе обращаться?" autocomplete="username" maxlength="32" />
+          </label>
+          <label class="field">
+            <span class="field-label">Email</span>
+            <input type="email" id="reg-email" required placeholder="you@example.com" autocomplete="email" />
+          </label>
+          <label class="field">
+            <span class="field-label">Пароль <em>(минимум 6 символов)</em></span>
+            <input type="password" id="reg-password" required minlength="6" placeholder="••••••••" autocomplete="new-password" />
+          </label>
+          <p class="auth-error" id="register-error"></p>
+          <p class="auth-info" id="register-info"></p>
+          <button type="submit" class="btn btn-primary btn-block" id="register-submit" data-i18n="btn_register">Создать аккаунт</button>
+        </form>
+
+        <label class="remember-row" for="remember-me">
+          <input type="checkbox" id="remember-me" checked />
+          <span data-i18n="remember_me">Запомнить это устройство</span>
+        </label>
+
+        <div class="auth-divider"><span data-i18n="or">или</span></div>
+
+        <button type="button" class="btn btn-google btn-block" id="btn-google">
+          <svg class="g-logo" viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.13 4.13 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35L15 2.09A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/></svg>
+          <span data-i18n="google_btn">Войти через Google</span>
+        </button>
+
+        <p class="auth-footnote" data-i18n="footnote">Данные хранятся в вашей собственной базе Supabase.<br />Пароль никогда не покидает её в открытом виде.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════ ГЛАВНЫЙ ЭКРАН ══════════ -->
+  <section id="main-screen" class="screen hidden">
+    <div class="warning-banner hidden" id="warning-banner" role="status">
+      <span class="warning-banner-ico">⚠</span>
+      <span class="warning-banner-text">Вы получили предупреждение от администрации: <b id="warning-banner-project">—</b></span>
+      <button class="warning-banner-detail" id="btn-warning-detail">Подробнее</button>
+      <button class="warning-banner-close" id="btn-warning-dismiss" title="Скрыть до перезапуска">✕</button>
+    </div>
+    <div class="app-body">
+    <aside class="sidebar">
+      <button class="side-home-btn" id="btn-home">
+        <img src="../assets/logoClient.svg" alt="" class="side-home-icon" />
+        <span>Главная</span>
+      </button>
+
+      <div class="side-title" data-i18n="projects">Проекты</div>
+      <div class="side-projects" id="project-list"></div>
+
+      <div class="side-spacer"></div>
+
+
+    <div class="side-account">
+        <div class="account-avatar" id="account-avatar">?</div>
+        <div class="account-meta">
+          <span class="account-hello">Привет, <b id="account-name">игрок</b>!</span>
+          <span class="account-email" id="account-email">—</span>
+        </div>
+        <button class="icon-btn" id="btn-logout" title="Выйти">🚪</button>
+      </div>
+    </aside>
+
+    <div class="main-pane">
+      <!-- Сторона «Главная» -->
+      <div id="main-pane-home" class="home-view hidden">
+        <div class="home-hero-label">Карусель</div>
+        <div class="home-hero" id="home-hero" aria-label="Главная">
+          <div class="home-hero-frame" id="home-hero-frame">
+            <div class="home-hero-slide" id="home-hero-slide" role="button" tabindex="0">
+              <img class="home-hero-img" id="home-hero-img" alt="" />
+              <div class="home-hero-gradient"></div>
+              <div class="home-hero-content">
+                <h1 class="home-hero-name" id="home-hero-name">SAMOT</h1>
+                <p class="home-hero-tagline" id="home-hero-tagline">…</p>
+                <button class="btn btn-primary btn-xl home-hero-cta" id="home-hero-cta">Смотреть</button>
+              </div>
+            </div>
+          </div>
+          <button class="home-hero-arrow prev" id="home-hero-prev" aria-label="Назад">‹</button>
+          <button class="home-hero-arrow next" id="home-hero-next" aria-label="Вперёд">›</button>
+          <div class="home-hero-dots" id="home-hero-dots"></div>
+        </div>
+
+        <div class="home-news-wrap">
+          <div class="home-news-head">
+            <h3>Последние новости</h3>
+            <button class="btn btn-ghost btn-sm" id="home-news-refresh">Обновить</button>
+          </div>
+          <div class="home-news-list" id="home-news-list"></div>
+          <p class="news-empty hidden" id="home-news-empty">Новостей пока нет.</p>
+        </div>
+      </div>
+      <!-- Сторона «Игра» -->
+      <div id="main-pane-game" class="game-view">
+      <!-- баннер доступного обновления клиента -->
+      <div class="update-banner hidden" id="update-banner">
+        <span class="update-banner-ico">⬆️</span>
+        <span class="update-banner-text">Доступна новая версия лаунчера <b id="update-banner-version"></b></span>
+        <button class="btn btn-primary btn-sm" id="btn-update-now">Обновить</button>
+        <button class="icon-btn" id="btn-update-later" title="Позже">✕</button>
+      </div>
+
+      <div class="update-banner hidden" id="cache-banner">
+        <span class="update-banner-ico">⚠️</span>
+        <span class="update-banner-text"><span id="cache-banner-text">Файлы игры повреждены</span></span>
+        <button class="btn btn-primary btn-sm" id="btn-cache-fix">Обновить сейчас</button>
+        <button class="icon-btn" id="btn-cache-dismiss" title="Позже">✕</button>
+      </div>
+
+      <div class="card-row">
+        <!-- ════════ ЛЕВАЯ КОЛОНКА ════════ -->
+        <main class="card-left">
+          <div class="gallery card">
+            <div class="gallery-stage">
+              <img id="gallery-img" alt="Скриншот игры" />
+              <div class="gallery-empty hidden" id="gallery-empty">Скриншотов пока нет — разработчик добавит их в админке.</div>
+            </div>
+            <div class="gallery-thumbs" id="gallery-thumbs"></div>
+          </div>
+
+          <button class="btn btn-primary btn-xl btn-block" id="btn-action">Скачать игру</button>
+
+          <div class="download-progress hidden" id="download-progress">
+            <div class="dp-info">
+              <span id="dp-label">Скачивание…</span>
+              <span class="dp-percent" id="dp-percent">0%</span>
+            </div>
+            <div class="dp-bar-row">
+              <div class="dp-bar"><div class="dp-fill" id="dp-fill" style="width:0%"></div></div>
+              <button class="dp-pause hidden" id="btn-pause-download" title="Пауза / Продолжить" aria-label="Пауза">❚❚</button>
+            </div>
+            <div class="dp-sub"><span id="dp-received">0 МБ из 0 МБ</span><span id="dp-speed">0 МБ/с</span></div>
+          </div>
+
+          <p class="install-info" id="install-info"></p>
+
+          <div class="news-col">
+            <div class="col-head">
+              <h2 data-i18n="all_news">Все новости</h2>
+              <button class="btn btn-ghost btn-sm" id="btn-refresh" data-i18n="refresh">Обновить</button>
+            </div>
+            <div class="news-list" id="news-list"></div>
+            <p class="news-empty hidden" id="news-empty">Новостей пока нет. Загляните позже!</p>
+          </div>
+        </main>
+
+        <!-- ════════ ПРАВАЯ КОЛОНКА ════════ -->
+        <aside class="card-right">
+          <div class="card game-card">
+            <div class="game-art-2"><img id="media-card-img" alt="Обложка игры" /></div>
+            <div class="game-card-body">
+              <div class="game-name-row">
+                <h3 id="game-name">—</h3>
+                <span class="game-version" id="game-version">v0.0.0</span>
+              </div>
+
+              <div class="offline-banner hidden" id="offline-banner">⚠️ Офлайн-режим: данные по последней синхронизации</div>
+
+              <div class="launcher-outdated hidden" id="launcher-outdated">
+                Доступна новая версия лаунчера (<span id="min-launcher-ver"></span>).
+              </div>
+
+              <div class="maintenance hidden" id="maintenance-box">
+                <div class="maintenance-ico">🛠️</div>
+                <div>
+                  <strong>Технические работы</strong>
+                  <p id="maintenance-text">Игра временно недоступна для скачивания.</p>
+                </div>
+              </div>
+
+              <button class="btn btn-ghost btn-block btn-sm" id="btn-reveal" data-i18n="reveal">Открыть папку с игрой</button>
+              <button class="btn btn-ghost btn-block btn-sm btn-danger-outline hidden" id="btn-uninstall" style="margin-top:6px; border-color:rgba(255,92,122,.5); color:#ffb0c0">🗑 Удалить игру</button>
+            </div>
+          </div>
+
+          <div class="card info-card">
+            <div class="info-title">Об игре</div>
+            <p class="info-desc" id="info-desc">—</p>
+            <dl class="info-grid">
+              <div class="info-cell"><dt>Дата выхода</dt><dd id="info-release">—</dd></div>
+              <div class="info-cell"><dt>Языки</dt><dd id="info-langs">—</dd></div>
+            </dl>
+            <button class="link-btn" id="btn-developer" type="button"><span>Разработчик</span><b id="info-dev">—</b></button>
+          </div>
+
+          <div class="card desc-card">
+            <button class="desc-toggle" id="desc-toggle" type="button" aria-expanded="false">Описание <span class="desc-caret" id="desc-caret">▸</span></button>
+            <div class="desc-body hidden" id="desc-body"></div>
+          </div>
+        </aside>
+      </div>
+
+    </div>
+    </div>
+
+  </div>
+
+  <!-- Статус-бар -->
+    <div class="statusbar" id="statusbar">
+      <div class="sb-seg"><span id="sb-left">Готов к работе</span></div>
+      <div class="sb-seg sb-pill" title="Текущий проект"><span id="pill-project">—</span></div>
+      <div class="sb-seg sb-pill" title="Новостей в ленте"><span id="pill-news">—</span></div>
+      <div class="sb-seg sb-right"><span id="sb-right">Новости: —</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ ПАНЕЛЬ НАСТРОЕК ══════════ -->
+  <aside id="settings-panel" class="settings-panel hidden" aria-hidden="true">
+    <div class="sp-head"><h3 data-i18n="settings_title">Настройки</h3><button class="tb-btn" id="btn-settings-close" title="Закрыть">✕</button></div>
+
+    <div class="sp-group">
+      <div class="sp-title" data-i18n="sp_app">Приложение</div>
+
+      <label class="sp-row switch-row"><span data-i18n="autostart">Запускать вместе с Windows</span><input type="checkbox" id="set-autostart" class="switch" /></label>
+      <label class="sp-row switch-row">><span>Максимальный режим (не перекрывает панель задач)</span><input type="checkbox" id="set-fullscreen" class="switch" /></label>
+      <label class="sp-row switch-row"><span>Сворачивать в трей, а не в «выход»</span><input type="checkbox" id="set-tray" class="switch" /></label>
+
+      
+    </div>
+
+<div class="sp-group">
+      <div class="sp-title" data-i18n="sp_install">Установка игры</div>
+      <div class="sp-row sp-col">
+        <span data-i18n="install_path">Куда скачивать игру</span>
+        <div class="path-row"><code id="set-install-path">—</code><button class="btn btn-ghost btn-sm" id="btn-choose-path" data-i18n="browse">Обзор…</button></div>
+      </div>
+    </div>
+
+      <div class="sp-row sp-col">
+        <button class="btn btn-ghost btn-block" id="btn-verify-cache">🔍 Проверить файлы игры или ПО</button>
+        <p class="sp-note" style="margin-top:-8px">Проверка хэшей локальных файлов против последнего манифеста. Сбойные файлы будут докачаны при следующем запуске игры.</p>
+      </div>
+      <div class="sp-group">
+      <div class="sp-title">Юридические документы</div>
+      <p class="sp-note">Читайте в любое время: пользовательское соглашение, персональные данные и правила сервиса.</p>
+      <button class="btn btn-ghost btn-block" id="btn-legal">📄 Правовая информация</button>
+    </div>
+
+      <div class="sp-group">
+      <div class="sp-title">Поддержка</div>
+      <p class="sp-note">Нашли ошибку? Отчёт уйдёт разработчику автоматически. Адрес почты скрыт — просто опишите проблему.</p>
+      <button class="btn btn-ghost btn-block" id="btn-report-bug">🐞 Сообщить об ошибке</button>
+      <button class="btn btn-ghost btn-block hidden" id="btn-contact-dev">✉️ Связь с разработчиком</button>
+      <button class="btn btn-ghost btn-block hidden" id="btn-unban-apply">🔓 Заявка на разблокировку</button>
+      <button class="btn btn-danger btn-block" id="btn-delete-account" style="margin-top:6px">🗑 Удалить мой аккаунт и все данные</button>
+      <p class="sp-note" style="margin-top:6px; margin-bottom:0">Удаление необратимо: аккаунт, устройства, проекты (владельцем которых вы были), новости, баны будут удалены/обезличены. Вы можете сделать это сами в любой момент.</p>
+    </div>
+  </aside>
+
+  <!-- ══════════ МОДАЛКА: ПРАВОВАЯ ИНФОРМАЦИЯ (в любое время из Настроек) ══════════ -->
+  <div class="modal-backdrop hidden" id="legal-modal">
+    <div class="modal consent-modal" role="dialog" aria-modal="true" aria-label="Правовая информация">
+      <div class="consent-head">
+        <h2 class="modal-title" style="margin:0">Правовая информация</h2>
+        <p class="page-sub" style="margin:6px 0 0">Разверните нужный раздел.</p>
+      </div>
+      <div class="consent-accs">
+        <details class="consent-acc" open>
+          <summary class="consent-acc-summary">Пользовательское соглашение</summary>
+          <div class="consent-body" id="legal-doc-agreement"></div>
+        </details>
+        <details class="consent-acc">
+          <summary class="consent-acc-summary">Персональные данные</summary>
+          <div class="consent-body" id="legal-doc-privacy"></div>
+        </details>
+        <details class="consent-acc">
+          <summary class="consent-acc-summary">Правила сервиса</summary>
+          <div class="consent-body" id="legal-doc-rules"></div>
+        </details>
+      </div>
+      <div class="modal-actions" style="justify-content:flex-end; margin-top:12px">
+        <button class="btn btn-primary" id="btn-legal-close-action">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+<!-- ══════════ МОДАЛКА: ЗАКРЫТЬ ВО ВРЕМЯ ЗАГРУЗКИ ══════════ -->
+  <div class="modal-backdrop hidden" id="quit-modal">
+    <div class="modal modal-sm">
+      <h2 class="modal-title" data-i18n="quit_title">Идёт загрузка</h2>
+      <p class="modal-body" data-i18n="quit_text">Файлы игры скачиваются. Если закрыть лаунчер сейчас, загрузка прервётся и придётся начать заново.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="btn-quit-stay" data-i18n="quit_stay">Остаться</button>
+        <button class="btn btn-danger" id="btn-quit-anyway" data-i18n="quit_anyway">Всё равно закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ МОДАЛКА НОВОСТИ ══════════ -->
+  <div class="modal-backdrop hidden" id="news-modal">
+    <div class="modal">
+      <button class="modal-close" id="news-modal-close">✕</button>
+      <img class="modal-image hidden" id="modal-image" alt="" />
+      <div class="modal-tag-row">
+        <span class="tag" id="modal-tag">Анонс</span>
+        <span class="modal-date" id="modal-date"></span>
+      </div>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+
+  <!-- модальное окно баг-репорта -->
+  <div class="modal-backdrop hidden" id="bug-modal">
+    <div class="modal modal-sm">
+      <h2 class="modal-title">Сообщить об ошибке</h2>
+      <p class="modal-body" style="margin-top:6px;font-size:.82rem;color:var(--text-dim)">Письмо с вашими данными и технической информацией уйдёт разработчику автоматически.</p>
+      <label class="field" style="margin-top:14px">
+        <span class="field-label">Что произошло и как воспроизвести</span>
+        <textarea id="bug-message" rows="5" placeholder="Опишите проблему…" required></textarea>
+      </label>
+      <label class="field" style="margin-top:10px">
+        <span class="field-label">Как с вами связаться (необязательно)</span>
+        <input type="text" id="bug-contact" placeholder="Email или Discord" />
+      <label class="field" style="margin-top:10px">
+        <span class="field-label">Скриншот (необязательно)</span>
+        <input type="file" id="bug-image" accept="image/*" />
+      </label>
+      </label>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="bug-cancel">Отмена</button>
+        <button class="btn btn-primary" id="bug-send">Отправить</button>
+      </div>
+    </div>
+  </div>
+
+  
+    <!-- экран: аккаунт заблокирован -->
+  <section id="ban-screen" class="screen hidden">
+    <div class="ban-screen-inner">
+      <div class="ban-icon-big">🔒</div>
+      <h1 class="ban-screen-title">Аккаунт заблокирован</h1>
+      <p class="ban-screen-text">Ваш доступ к лаунчеру и игре ограничен.</p>
+      <div class="ban-details">
+        <div class="ban-row"><span>Причина</span><b id="ban-screen-reason">—</b></div>
+        <div class="ban-row"><span>Срок до</span><b id="ban-screen-until">—</b></div>
+      </div>
+      <p class="ban-hint">Если вы считаете, что это ошибка, откройте Настройки → Поддержка → «Заявка на разблокировку» и опишите ситуацию.</p>
+      <div class="ban-screen-actions">
+        <button class="btn btn-ghost" id="ban-screen-settings">⚙ Настройки</button>
+        <button class="btn btn-primary" id="btn-ban-logout">Выйти</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- модальное окно письма (Связь / Разбан) -->
+  <div class="modal-backdrop hidden" id="msg-modal">
+    <div class="modal modal-sm">
+      <h2 class="modal-title" id="msg-modal-title">Связь с разработчиком</h2>
+      <p class="modal-body" style="margin-top:6px;font-size:.82rem;color:var(--text-dim)">Письмо уйдёт автоматически, указав вашу почту. Опишите, что именно нужно исправить или объяснить.</p>
+      <label class="field" style="margin-top:14px">
+        <span class="field-label">Сообщение</span>
+        <textarea id="msg-message" rows="5" placeholder="Опишите ситуацию…" required></textarea>
+      </label>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="msg-cancel">Отмена</button>
+        <button class="btn btn-primary" id="msg-send">Отправить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- модальное окно: проверка файлов игры -->
+  <div class="modal-backdrop hidden" id="verify-modal">
+    <div class="modal">
+      <h2 class="modal-title">Проверка файлов игры</h2>
+      <p class="modal-body" id="verify-summary" style="margin:10px 0">Проверяю…</p>
+      <div class="verify-list" id="verify-list" style="max-height:300px; overflow-y:auto; font-size:.8rem"></div>
+      <div class="modal-actions"><button class="btn btn-primary" id="verify-close">Закрыть</button></div>
+    </div>
+  </div>
+
+<div class="modal-backdrop hidden" id="dev-modal">
+    <div class="modal modal-sm">
+      <button class="modal-close" id="dev-modal-close">✕</button>
+      <h2 class="modal-title">Разработчик</h2>
+      <p class="modal-body" id="dev-modal-name" style="font-weight:600; margin-top:8px">—</p>
+      <div class="modal-body" id="dev-modal-body" style="white-space:pre-line; margin-top:6px; margin-bottom:12px">—</div>
+      <div class="modal-actions"><button class="btn btn-primary" id="dev-modal-ok">Понятно</button></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="warning-modal">
+    <div class="modal modal-sm">
+      <h2 class="modal-title">⚠ Предупреждение</h2>
+      <p class="modal-body" style="color:var(--text-dim)">Вы получили предупреждение от администрации проекта.</p>
+      <dl class="warning-modal-list">
+        <div><dt>Проект</dt><dd id="warning-modal-project">—</dd></div>
+        <div><dt>Причина</dt><dd id="warning-modal-reason">—</dd></div>
+        <div><dt>Действует до</dt><dd id="warning-modal-until">—</dd></div>
+        <div><dt>От кого</dt><dd id="warning-modal-from">Администрация проекта</dd></div>
+      </dl>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="warning-modal-close">Понятно</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <!-- ══════════ СОГЛАШЕНИЕ / ПД / ПРАВИЛА СЕРВИСА ══════════ -->
+  <div class="modal-backdrop hidden" id="consent-modal">
+    <div class="modal consent-modal" role="dialog" aria-modal="true" aria-label="Юридические документы">
+      <div class="consent-head">
+        <h2 class="modal-title" style="margin:0">Юридические документы</h2>
+        <p class="page-sub" style="margin:6px 0 0">Разверните каждый раздел, чтобы прочитать, и отметьте галочки приёма.</p>
+      </div>
+      <div class="consent-accs">
+        <details class="consent-acc" open>
+          <summary class="consent-acc-summary">Пользовательское соглашение</summary>
+          <div class="consent-body" id="consent-agreement"></div>
+          <label class="consent-check"><input type="checkbox" id="consent-agree-rules" /><span>Я принимаю Пользовательское соглашение</span></label>
+        </details>
+        <details class="consent-acc">
+          <summary class="consent-acc-summary">Персональные данные</summary>
+          <div class="consent-body" id="consent-privacy"></div>
+          <label class="consent-check"><input type="checkbox" id="consent-agree-data" /><span>Я даю согласие на обработку моих персональных данных</span></label>
+        </details>
+        <details class="consent-acc">
+          <summary class="consent-acc-summary">Правила сервиса</summary>
+          <div class="consent-body" id="consent-rules"></div>
+          <label class="consent-check"><input type="checkbox" id="consent-agree-service" /><span>Я принимаю Правила сервиса</span></label>
+        </details>
+      </div>
+      <div class="modal-actions" style="justify-content:space-between; margin-top:12px">
+        <button class="btn btn-ghost" id="consent-decline">Выйти</button>
+        <button class="btn btn-primary" id="consent-accept" disabled>Принять и продолжить</button>
+      </div>
+    </div>
+  </div>
+
+<script src="../node_modules/@supabase/supabase-js/dist/umd/supabase.js"></script>
+  <script src="config.js"></script>
+  <script src="theme.config.js"></script>
+  <script src="documents.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

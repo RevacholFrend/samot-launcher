@@ -1,0 +1,50 @@
+{
+  "name": "samot-launcher",
+  "version": "1.0.0",
+  "description": "SAMOT Launcher — десктопный лаунчер игр и ПО и ПО: новости, баннеры, установка/обновление (Electron + Supabase)",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "tour": "electron . --tour",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder --win nsis",
+    "dist:signed": "npm run dist && powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1 -FilePath \"dist/SAMOT Launcher Setup 1.0.0.exe\"",
+    "sign": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1",
+    "test": "node --test tests/integrity.test.cjs",
+    "test:smoke": "node tests/smoke.cjs",
+    "test:all": "node --test tests/ && node tests/smoke.cjs"
+  },
+  "build": {
+    "appId": "com.samot.launcher",
+    "productName": "SAMOT Launcher",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**",
+      "assets/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/iconClient.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "shortcutName": "SAMOT Launcher",
+      "installerIcon": "assets/iconClient.ico",
+      "uninstallerIcon": "assets/iconClient.ico"
+    }
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "adm-zip": "^0.6.1"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}

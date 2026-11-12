@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dist-admin/
+dist-packager/
+*.log
+install-state.json
+.DS_Store
+backups/
+.wrangler/
+.tmp-asar2/
