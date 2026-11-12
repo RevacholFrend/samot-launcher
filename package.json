@@ -1,61 +1,61 @@
 {
-    "name":  "samot-launcher",
-    "version":  "1.0.3",
-    "description":  "SAMOT Launcher — десктопный лаунчер игр и ПО и ПО: новости, баннеры, установка/обновление (Electron + Supabase)",
-    "main":  "main.js",
-    "license":  "MIT",
-    "scripts":  {
-                    "start":  "electron .",
-                    "start:admin":  "electron admin-main.js",
-                    "tour":  "electron . --tour",
-                    "pack":  "electron-builder --dir",
-                    "dist":  "electron-builder --win nsis",
-                    "dist:admin":  "electron-builder --win nsis --config electron-builder.admin.json",
-                    "dist:signed":  "npm run dist \u0026\u0026 powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1 -FilePath \"dist/SAMOT Launcher Setup 1.0.2.exe\"",
-                    "dist:admin:signed":  "npm run dist:admin \u0026\u0026 powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1 -FilePath \"dist-admin/SAMOT Admin Setup 1.0.2.exe\"",
-                    "packager":  "electron tools/packager/packager-main.cjs",
-                    "dist:packager":  "electron-builder --win portable --config electron-builder.packager.json",
-                    "dist:packager:signed":  "npm run dist:packager \u0026\u0026 powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1 -FilePath \"dist-packager/SAMOT-Packager-1.0.0.exe\"",
-                    "sign":  "powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1",
-                    "test":  "node --test tests/integrity.test.cjs tests/pack-integrity.test.cjs",
-                    "test:smoke":  "node tests/smoke.cjs",
-                    "test:all":  "node --test tests/ \u0026\u0026 node tests/smoke.cjs"
-                },
-    "build":  {
-                  "appId":  "com.samot.launcher",
-                  "productName":  "SAMOT Launcher",
-                  "directories":  {
-                                      "output":  "dist"
-                                  },
-                  "files":  [
-                                "main.js",
-                                "preload.js",
-                                "src/**",
-                                "assets/**",
-                                "!src/admin/**"
-                            ],
-                  "win":  {
-                              "target":  "nsis",
-                              "icon":  "assets/iconClient.ico"
-                          },
-                  "nsis":  {
-                               "oneClick":  false,
-                               "perMachine":  false,
-                               "allowToChangeInstallationDirectory":  true,
-                               "shortcutName":  "SAMOT Launcher",
-                               "installerIcon":  "assets/iconClient.ico",
-                               "artifactName":  "SAMOT-Launcher-Setup.exe",
-                               "uninstallerIcon":  "assets/iconClient.ico"
-                           }
-              },
-    "dependencies":  {
-                         "@supabase/supabase-js":  "^2.45.4",
-                         "adm-zip":  "^0.6.1"
-                     },
-    "devDependencies":  {
-                            "7zip-bin":  "^5.2.0",
-                            "electron":  "^33.2.0",
-                            "electron-builder":  "^25.1.8",
-                            "wrangler":  "^4.158.0"
-                        }
+    "name": "samot-launcher",
+    "version": "1.0.4",
+    "description": "SAMOT Launcher — десктопный лаунчер игр и ПО и ПО: новости, баннеры, установка/обновление (Electron + Supabase)",
+    "main": "main.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "electron .",
+        "start:admin": "electron admin-main.js",
+        "tour": "electron . --tour",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder --win nsis",
+        "dist:admin": "electron-builder --win nsis --config electron-builder.admin.json",
+        "dist:signed": "npm run dist && powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1 -FilePath \"dist/SAMOT Launcher Setup 1.0.2.exe\"",
+        "dist:admin:signed": "npm run dist:admin && powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1 -FilePath \"dist-admin/SAMOT Admin Setup 1.0.2.exe\"",
+        "packager": "electron tools/packager/packager-main.cjs",
+        "dist:packager": "electron-builder --win portable --config electron-builder.packager.json",
+        "dist:packager:signed": "npm run dist:packager && powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1 -FilePath \"dist-packager/SAMOT-Packager-1.0.0.exe\"",
+        "sign": "powershell -NoProfile -ExecutionPolicy Bypass -File tools/sign.ps1",
+        "test": "node --test tests/integrity.test.cjs tests/pack-integrity.test.cjs",
+        "test:smoke": "node tests/smoke.cjs",
+        "test:all": "node --test tests/ && node tests/smoke.cjs"
+    },
+    "build": {
+        "appId": "com.samot.launcher",
+        "productName": "SAMOT Launcher",
+        "directories": {
+            "output": "dist"
+        },
+        "files": [
+            "main.js",
+            "preload.js",
+            "src/**",
+            "assets/**",
+            "!src/admin/**"
+        ],
+        "win": {
+            "target": "nsis",
+            "icon": "assets/iconClient.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "perMachine": false,
+            "allowToChangeInstallationDirectory": true,
+            "shortcutName": "SAMOT Launcher",
+            "installerIcon": "assets/iconClient.ico",
+            "artifactName": "SAMOT-Launcher-Setup.exe",
+            "uninstallerIcon": "assets/iconClient.ico"
+        }
+    },
+    "dependencies": {
+        "@supabase/supabase-js": "^2.45.4",
+        "adm-zip": "^0.6.1"
+    },
+    "devDependencies": {
+        "7zip-bin": "^5.2.0",
+        "electron": "^33.2.0",
+        "electron-builder": "^25.1.8",
+        "wrangler": "^4.158.0"
+    }
 }

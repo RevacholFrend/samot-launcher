@@ -966,9 +966,24 @@ ipcMain.handle('update:download-and-run', async (event, url, expectedSha256) => 
       throw new Error('SHA-256 обновления не совпадает — установка отменена');
     }
   }
-  const child = spawn(tmp, ['/S'], { detached: true, stdio: 'ignore' });
-  child.unref();
-  setTimeout(() => app.quit(), 1000);
+  // Ждём завершения тихой установки и открываем приложение снова, чтобы после
+  // обновления окно вернулось само. Без этого установщик просто закрывался, и
+  // авто-обновление требовало ручного запуска лаунчера.
+  const exePath = app.getPath('exe');
+  const escPs = (s) => String(s).replace(/'/g, "''");
+  const script = [
+    `$installer = '${escPs(tmp)}'`,
+    `$exe = '${escPs(exePath)}'`,
+    `try { Start-Process -FilePath $installer -ArgumentList '/S' -Wait } catch { exit 1 }`,
+    'Start-Sleep -Milliseconds 800',
+    `if (Test-Path $exe) { try { Start-Process -FilePath $exe } catch {} }`,
+  ].join('; ');
+  const ps = spawn('powershell.exe', ['-NoProfile', '-WindowStyle', 'Hidden', '-Command', script], {
+    detached: true,
+    stdio: 'ignore',
+  });
+  ps.unref();
+  setTimeout(() => app.exit(0), 700);
   return { ok: true };
 });
 
