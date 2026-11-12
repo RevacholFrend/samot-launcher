@@ -1750,6 +1750,11 @@ async function registerDevice() {
 // ---------- Фоновая проверка целостности игры ----------
 async function checkCacheIntegrity() {
   try {
+    const pid = state.project?.id;
+    const installedBefore = !!(pid && state.installByProject?.[pid]?.installed);
+    const banner = $('#cache-banner');
+    // ничего не скачивали — не ругаемся на «повреждённые» файлы
+    if (!installedBefore) { if (banner) banner.classList.add('hidden'); return; }
     const raw = state.settings?.game_manifest;
     if (!raw) return; // манифест не настроен — ничего не проверяем
     let manifest;
@@ -1758,7 +1763,6 @@ async function checkCacheIntegrity() {
     const res = await window.launcher?.verifyCache?.(manifest, state.project?.id);
     if (!res) return;
     const broken = (res.report || []).filter((r) => !r.ok);
-    const banner = $('#cache-banner');
     const textEl = $('#cache-banner-text');
     if (!banner || !textEl) return;
     if (broken.length) {
