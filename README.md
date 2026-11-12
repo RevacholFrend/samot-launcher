@@ -42,8 +42,8 @@
 
 | Что | Файл |
 |---|---|
-| **SAMOT Launcher** (игрок) | [SAMOT Launcher Setup 1.0.0.exe](https://github.com/RevacholFrend/samot-launcher/releases/download/v1.0.0/SAMOT%20Launcher%20Setup%201.0.0.exe) |
-| **SAMOT Admin** (разработчик) | [SAMOT Admin Setup 1.0.0.exe](https://github.com/RevacholFrend/samot-admin/releases/download/v1.0.0/SAMOT%20Admin%20Setup%201.0.0.exe) |
+| **SAMOT Launcher** (игрок) | [SAMOT Launcher Setup 1.0.0.exe](https://github.com/RevacholFrend/samot-launcher/releases/download/v1.0.0/SAMOT.Launcher.Setup.1.0.0.exe) |
+| **SAMOT Admin** (разработчик) | [SAMOT Admin Setup 1.0.0.exe](https://github.com/RevacholFrend/samot-admin/releases/download/v1.0.0/SAMOT.Admin.Setup.1.0.0.exe) |
 | **SAMOT Packager** (утилита сборки игры) | [SAMOT-Packager-1.0.0.exe](https://github.com/RevacholFrend/SAMOT-releases/releases/download/tools-v1.0.0/SAMOT-Packager-1.0.0.exe) |
 
 > ℹ Самоподписанный сертификат: при первом запуске Windows SmartScreen может предупредить.
