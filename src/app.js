@@ -1916,9 +1916,23 @@ async function enterApp() {
   syncSupportVisibility();
   await loadAll();
   try { await checkForLauncherUpdate(); } catch {}
-  // Полностью автоматический режим: если доступна новая версия — скачать и установить молча
+  // Авто-режим: если доступна новая версия — скачать и установить молча.
+  // Но НЕ ЧАЩЕ ОДНОГО РАЗА В 24 ЧАСА на одну и ту же версию — иначе при неудачной
+  // установке (например, нет прав в Program Files) получаем бесконечную петлю
+  // «скачал 81 МБ → вышел → снова скачал». Ручная кнопка «Обновить» остаётся всегда.
   if (state.latestLauncherUpdate) {
-    try { document.getElementById('btn-update-now')?.click(); } catch { /* кнопка останется как запасной вариант */ }
+    const AUTO_KEY = 'samot_launcher_autoupdate_v1';
+    let lastAttempt = null;
+    try { lastAttempt = JSON.parse(localStorage.getItem(AUTO_KEY) || 'null'); } catch { /* ignore */ }
+    const recent = lastAttempt
+      && lastAttempt.version === state.latestLauncherUpdate.latest
+      && (Date.now() - Number(lastAttempt.at || 0)) < 24 * 3600 * 1000;
+    if (!recent) {
+      try {
+        localStorage.setItem(AUTO_KEY, JSON.stringify({ version: state.latestLauncherUpdate.latest, at: Date.now() }));
+        document.getElementById('btn-update-now')?.click();
+      } catch { /* кнопка останется как запасной вариант */ }
+    }
   }
   // фоновая проверка целостности
   try { checkCacheIntegrity(); } catch {}

@@ -10,6 +10,6 @@ window.APP_CONFIG = {
   GAME_NAME: 'SAMOT game',
 
   // Версия клиента — должна совпадать с package.json "version"
-  LAUNCHER_VERSION: '1.0.6',
+  LAUNCHER_VERSION: '1.0.7',
 
 };
