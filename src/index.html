@@ -128,6 +128,21 @@
     </aside>
 
     <div class="main-pane">
+      <!-- Глобальные баннеры: видны и на «Главной», и на «Игре» (в т.ч. если проект ещё не выбран/не опубликован) -->
+      <div class="update-banner hidden" id="update-banner">
+        <span class="update-banner-ico">⬆️</span>
+        <span class="update-banner-text">Доступна новая версия лаунчера <b id="update-banner-version"></b></span>
+        <button class="btn btn-primary btn-sm" id="btn-update-now">Обновить</button>
+        <button class="icon-btn" id="btn-update-later" title="Позже">✕</button>
+      </div>
+
+      <div class="update-banner hidden" id="cache-banner">
+        <span class="update-banner-ico">⚠️</span>
+        <span class="update-banner-text"><span id="cache-banner-text">Файлы игры повреждены</span></span>
+        <button class="btn btn-primary btn-sm" id="btn-cache-fix">Обновить сейчас</button>
+        <button class="icon-btn" id="btn-cache-dismiss" title="Позже">✕</button>
+      </div>
+
       <!-- Сторона «Главная» -->
       <div id="main-pane-home" class="home-view hidden">
         <div class="home-hero" id="home-hero" aria-label="Главная">
@@ -158,20 +173,6 @@
       </div>
       <!-- Сторона «Игра» -->
       <div id="main-pane-game" class="game-view">
-      <!-- баннер доступного обновления клиента -->
-      <div class="update-banner hidden" id="update-banner">
-        <span class="update-banner-ico">⬆️</span>
-        <span class="update-banner-text">Доступна новая версия лаунчера <b id="update-banner-version"></b></span>
-        <button class="btn btn-primary btn-sm" id="btn-update-now">Обновить</button>
-        <button class="icon-btn" id="btn-update-later" title="Позже">✕</button>
-      </div>
-
-      <div class="update-banner hidden" id="cache-banner">
-        <span class="update-banner-ico">⚠️</span>
-        <span class="update-banner-text"><span id="cache-banner-text">Файлы игры повреждены</span></span>
-        <button class="btn btn-primary btn-sm" id="btn-cache-fix">Обновить сейчас</button>
-        <button class="icon-btn" id="btn-cache-dismiss" title="Позже">✕</button>
-      </div>
 
       <div class="card-row">
         <!-- ════════ ЛЕВАЯ КОЛОНКА ════════ -->
