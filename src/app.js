@@ -561,6 +561,7 @@ async function loadHomeData() {
       .eq('active', true)
       .eq('carousel', true)
       .lte('published_at', new Date().toISOString())
+      .order('sort', { ascending: true })
       .order('published_at', { ascending: false })
       .limit(6);
     if (Array.isArray(carouselNews)) {
@@ -581,6 +582,7 @@ async function loadHomeData() {
       .eq('active', true)
       .eq('home', true)
       .lte('published_at', new Date().toISOString())
+      .order('sort', { ascending: true })
       .order('published_at', { ascending: false })
       .limit(8);
     if (!nErr) state.homeNews = news || [];
@@ -970,13 +972,15 @@ async function loadSettings(pid) {
 
 async function loadNews(pid) {
   if (!pid) return false;
+  // Новости проекта + официальные (SAMOT/события, project_id IS NULL) — они общие для всех проектов
   const { data, error } = await sb
     .from('news')
     .select('*')
     .eq('active', true)
-    .eq('project_id', pid)
+    .or('project_id.is.null,project_id.eq.' + pid)
     .lte('published_at', new Date().toISOString())
     .order('pinned', { ascending: false })
+    .order('sort', { ascending: true })
     .order('published_at', { ascending: false })
     .limit(20);
   if (error) {
