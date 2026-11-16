@@ -104,7 +104,24 @@
       <button class="warning-banner-detail" id="btn-warning-detail">Подробнее</button>
       <button class="warning-banner-close" id="btn-warning-dismiss" title="Скрыть до перезапуска">✕</button>
     </div>
-    <div class="app-body">
+    <!-- ══════════ ГЛОБАЛЬНЫЕ БАННЕРЫ (видны всегда: вход, Главная, Игра) ══════════ -->
+  <div class="global-banners">
+    <div class="update-banner hidden" id="update-banner">
+      <span class="update-banner-ico">⬆️</span>
+      <span class="update-banner-text">Доступна новая версия лаунчера <b id="update-banner-version"></b></span>
+      <button class="btn btn-primary btn-sm" id="btn-update-now">Обновить</button>
+      <button class="icon-btn" id="btn-update-later" title="Позже">✕</button>
+    </div>
+
+    <div class="update-banner hidden" id="cache-banner">
+      <span class="update-banner-ico">⚠️</span>
+      <span class="update-banner-text"><span id="cache-banner-text">Файлы игры повреждены</span></span>
+      <button class="btn btn-primary btn-sm" id="btn-cache-fix">Обновить сейчас</button>
+      <button class="icon-btn" id="btn-cache-dismiss" title="Позже">✕</button>
+    </div>
+  </div>
+
+  <div class="app-body">
     <aside class="sidebar">
       <button class="side-home-btn" id="btn-home">
         <img src="../assets/logoClient.svg" alt="" class="side-home-icon" />
@@ -128,21 +145,6 @@
     </aside>
 
     <div class="main-pane">
-      <!-- Глобальные баннеры: видны и на «Главной», и на «Игре» (в т.ч. если проект ещё не выбран/не опубликован) -->
-      <div class="update-banner hidden" id="update-banner">
-        <span class="update-banner-ico">⬆️</span>
-        <span class="update-banner-text">Доступна новая версия лаунчера <b id="update-banner-version"></b></span>
-        <button class="btn btn-primary btn-sm" id="btn-update-now">Обновить</button>
-        <button class="icon-btn" id="btn-update-later" title="Позже">✕</button>
-      </div>
-
-      <div class="update-banner hidden" id="cache-banner">
-        <span class="update-banner-ico">⚠️</span>
-        <span class="update-banner-text"><span id="cache-banner-text">Файлы игры повреждены</span></span>
-        <button class="btn btn-primary btn-sm" id="btn-cache-fix">Обновить сейчас</button>
-        <button class="icon-btn" id="btn-cache-dismiss" title="Позже">✕</button>
-      </div>
-
       <!-- Сторона «Главная» -->
       <div id="main-pane-home" class="home-view hidden">
         <div class="home-hero" id="home-hero" aria-label="Главная">

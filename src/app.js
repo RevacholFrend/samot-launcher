@@ -2091,6 +2091,9 @@ async function initSettingsPanel() {
       ? 'Серверы онлайн ✓'
       : 'Сервер недоступен — офлайн-режим';
 
+    // 3.5) Обновление лаунчера — показываем баннер сразу, даже до входа
+    try { await checkForLauncherUpdate(); } catch {}
+
     if (DEMO_USER) {
       splashFill.style.width = '100%';
       await new Promise((r) => setTimeout(r, 700));
