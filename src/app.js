@@ -350,8 +350,12 @@ $('#btn-quit-anyway').addEventListener('click', () => { $('#quit-modal').classLi
 $('#quit-modal').addEventListener('click', (e) => { if (e.target.id === 'quit-modal') $('#quit-modal').classList.add('hidden'); });
 $('#news-modal-close').addEventListener('click', () => $('#news-modal').classList.add('hidden'));
 $('#news-modal').addEventListener('click', (e) => { if (e.target.id === 'news-modal') $('#news-modal').classList.add('hidden'); });
+$('#featured-modal-close').addEventListener('click', () => $('#featured-modal').classList.add('hidden'));
+$('#featured-modal').addEventListener('click', (e) => { if (e.target.id === 'featured-modal') $('#featured-modal').classList.add('hidden'); });
+$('#home-hero-img')?.addEventListener('error', () => { $('#home-hero-img')?.classList.add('home-hero-img-broken'); });
+$('#featured-modal-image')?.addEventListener('error', () => { $('#featured-modal-image')?.classList.add('hidden'); });
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { $('#news-modal').classList.add('hidden'); $('#quit-modal').classList.add('hidden'); $('#settings-panel').classList.add('hidden'); }
+  if (e.key === 'Escape') { $('#news-modal').classList.add('hidden'); $('#featured-modal').classList.add('hidden'); $('#quit-modal').classList.add('hidden'); $('#settings-panel').classList.add('hidden'); }
 });
 
 // =====================================================
@@ -544,8 +548,9 @@ async function loadHomeData() {
         name: f.title,
         tagline: f.tagline || '',
         banner: f.image_url,
-        ctaLabel: f.cta_label || 'Смотреть',
+        ctaLabel: f.cta_label || '',
         ctaUrl: f.cta_url || '',
+        body: f.body || '',
         sort: f.sort ?? 0,
       }));
       state.homeSlides = [...state.homeSlides, ...featuredSlides];
@@ -589,11 +594,22 @@ function goToHomeSlide(i) {
   if (!slides.length) return;
   state.homeIndex = ((i % slides.length) + slides.length) % slides.length;
   const s = slides[state.homeIndex];
-  $('#home-hero-img').src = s.banner;
-  $('#home-hero-img').addEventListener('error', () => { $('#home-hero-img').style.visibility = 'hidden'; }, { once: true });
+  const imgEl = $('#home-hero-img');
+  imgEl.classList.remove('home-hero-img-broken');
+  imgEl.src = s.banner;
   $('#home-hero-name').textContent = s.name;
   $('#home-hero-tagline').textContent = s.tagline || '';
-  $('#home-hero-cta').textContent = (s.kind === 'featured' && s.ctaLabel) ? s.ctaLabel : (s.kind === 'news' ? (s.ctaUrl ? 'Подробнее' : 'Читать') : 'Перейти к проекту');
+  const cta = $('#home-hero-cta');
+  if (s.kind === 'featured') {
+    const hasAction = !!(s.ctaUrl || s.body);
+    cta.classList.toggle('hidden', !hasAction);
+    cta.textContent = s.ctaLabel || (s.ctaUrl ? 'Смотреть' : 'Подробнее');
+  } else {
+    cta.classList.remove('hidden');
+    cta.textContent = s.kind === 'news'
+      ? (s.ctaUrl ? 'Подробнее' : 'Читать')
+      : 'Перейти к проекту';
+  }
   $$('#home-hero-dots .home-hero-dot').forEach((d, j) => d.classList.toggle('active', j === state.homeIndex));
 }
 
@@ -652,9 +668,13 @@ function openHomeSlide(s) {
   if (!s) return;
   if (s.kind === 'featured') {
     const url = s.ctaUrl;
-    if (url && window.launcher?.openExternal) { window.launcher.openExternal(url); }
-    else if (url) { window.open(url, '_blank', 'noopener'); }
-    return;
+    if (url) {
+      if (window.launcher?.openExternal) { window.launcher.openExternal(url); }
+      else { window.open(url, '_blank', 'noopener'); }
+      return;
+    }
+    if (s.body) { openFeaturedModal(s); return; }
+    return; // постер без кнопки: клик ничего не делает
   }
   if (s.kind === 'news') {
     const n = s.news;
@@ -1019,6 +1039,22 @@ function renderNewsBodySafe(text) {
   out = out.replace(/\n/g, '<br>');
   return out;
 }
+// Официальный постер: окно «Подробнее» (для событий без ссылки)
+function openFeaturedModal(s) {
+  const img = $('#featured-modal-image');
+  if (s.banner) {
+    img.src = s.banner;
+    img.classList.remove('hidden');
+  } else {
+    img.removeAttribute('src');
+    img.classList.add('hidden');
+  }
+  $('#featured-modal-tag').textContent = 'SAMOT';
+  $('#featured-modal-title').textContent = s.name || 'SAMOT';
+  $('#featured-modal-body').textContent = s.body || '';
+  $('#featured-modal').classList.remove('hidden');
+}
+
 function openNewsModal(n) {
   $('#modal-tag').textContent = n.tag || 'Анонс';
   $('#modal-tag').dataset.tag = n.tag || '';
