@@ -598,6 +598,17 @@ function goToHomeSlide(i) {
   const s = slides[state.homeIndex];
   const imgEl = $('#home-hero-img');
   imgEl.classList.remove('home-hero-img-broken');
+  // Высоту героя подстраиваем под реальную пропорцию картинки:
+  // вертикальные баннеры не дают огромный пустой блок, широкие — не кропятся.
+  const hero = document.querySelector('.home-hero');
+  const natural = { w: 21, h: 6 };
+  imgEl.onload = () => {
+    const w = imgEl.naturalWidth || natural.w;
+    const h = imgEl.naturalHeight || natural.h;
+    // не делаем высокое поле: растянутая вертикаль ограничена max-height в CSS
+    if (hero) hero.style.aspectRatio = w + ' / ' + h;
+    imgEl.onload = null;
+  };
   imgEl.src = s.banner;
   $('#home-hero-name').textContent = s.name;
   $('#home-hero-tagline').textContent = s.tagline || '';
